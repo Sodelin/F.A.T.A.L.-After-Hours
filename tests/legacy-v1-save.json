@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "ruleset": "fate-accelerated",
+  "packId": "last-train-home-v1",
+  "title": "Existing campaign before toolkit upgrade",
+  "session": 1,
+  "sceneIndex": 1,
+  "scene": {
+    "id": "crossing",
+    "title": "Tickets, memories, please",
+    "description": "The train slips above the sleeping city. A passenger unfolds a ticket with your name on it. Beyond the glass, the night is beginning to crack. The suitcase opens a finger’s width, and something inside asks to be let out.",
+    "objective": "Learn what the sunrise wants. Choose what you are willing to trade for it.",
+    "gmNotes": "The nameless passenger is a future version of someone at the table. They want the sunrise released, but believe it will erase their journey. Offer three leads: a ticket remembers its buyer, the conductor knows the price, the suitcase speaks when addressed with kindness. Let the players choose a fourth.",
+    "aspects": [
+      "Tomorrow is listening",
+      "No one travels without baggage"
+    ],
+    "zones": [
+      {
+        "id": "carriage",
+        "name": "Passenger car",
+        "description": "Every window looks out on a different year.",
+        "adjacent": [
+          "dining"
+        ]
+      },
+      {
+        "id": "dining",
+        "name": "Dining car",
+        "description": "The last cup of coffee is still hot.",
+        "adjacent": [
+          "carriage",
+          "engine"
+        ]
+      },
+      {
+        "id": "engine",
+        "name": "Engine door",
+        "description": "An impossible wind pushes back.",
+        "adjacent": [
+          "dining"
+        ]
+      }
+    ]
+  },
+  "inConflict": false,
+  "characters": [
+    {
+      "schemaVersion": 1,
+      "ruleset": "fate-accelerated",
+      "id": "df009ec2-5f45-40d3-92d1-1ebcc3db2033",
+      "name": "Existing Character",
+      "appearance": "",
+      "approaches": {
+        "careful": 1,
+        "clever": 2,
+        "flashy": 1,
+        "forceful": 0,
+        "quick": 3,
+        "sneaky": 2
+      },
+      "aspects": [
+        {
+          "id": "df009ec2-5f45-40d3-92d1-1ebcc3db2033:high-concept",
+          "name": "Courier between impossible neighborhoods",
+          "kind": "highConcept",
+          "freeInvokes": []
+        },
+        {
+          "id": "df009ec2-5f45-40d3-92d1-1ebcc3db2033:trouble",
+          "name": "I never leave a delivery unfinished",
+          "kind": "trouble",
+          "freeInvokes": []
+        },
+        {
+          "id": "df009ec2-5f45-40d3-92d1-1ebcc3db2033:aspect:1",
+          "name": "Every alley has a story",
+          "kind": "character",
+          "freeInvokes": []
+        }
+      ],
+      "stunts": [],
+      "refreshBase": 3,
+      "refresh": 3,
+      "fatePoints": 2,
+      "stress": [
+        false,
+        true,
+        false
+      ],
+      "consequences": {
+        "mild": {
+          "id": "df009ec2-5f45-40d3-92d1-1ebcc3db2033:consequence:mild:legacy-hit",
+          "name": "Legacy strained wrist",
+          "kind": "consequence",
+          "freeInvokes": [
+            {
+              "id": "df009ec2-5f45-40d3-92d1-1ebcc3db2033:consequence:mild:legacy-hit:free:1",
+              "authorizedActorIds": [
+                "f3fcd3f6-7a8b-4845-bd7a-df95eb087fe7"
+              ]
+            }
+          ],
+          "severity": "mild",
+          "shifts": 2,
+          "incurred": {
+            "sceneId": "crossing",
+            "sessionId": "session-1",
+            "sessionIndex": 1,
+            "scenarioId": "last-train-home-v1"
+          }
+        },
+        "moderate": null,
+        "severe": null
+      },
+      "takenOut": false,
+      "lastSession": {
+        "id": "session-1",
+        "index": 1
+      },
+      "appliedMilestoneIds": [],
+      "ownerId": "legacy-player",
+      "zone": "carriage",
+      "pendingDamage": 0,
+      "npc": false
+    },
+    {
+      "schemaVersion": 1,
+      "ruleset": "fate-accelerated",
+      "id": "f3fcd3f6-7a8b-4845-bd7a-df95eb087fe7",
+      "name": "Existing Rival",
+      "appearance": "",
+      "approaches": {
+        "careful": 2,
+        "clever": 3,
+        "flashy": 0,
+        "forceful": 1,
+        "quick": 1,
+        "sneaky": 2
+      },
+      "aspects": [
+        {
+          "id": "f3fcd3f6-7a8b-4845-bd7a-df95eb087fe7:high-concept",
+          "name": "Detective of the city after midnight",
+          "kind": "highConcept",
+          "freeInvokes": []
+        },
+        {
+          "id": "f3fcd3f6-7a8b-4845-bd7a-df95eb087fe7:trouble",
+          "name": "The mystery always comes home with me",
+          "kind": "trouble",
+          "freeInvokes": []
+        },
+        {
+          "id": "f3fcd3f6-7a8b-4845-bd7a-df95eb087fe7:aspect:1",
+          "name": "A question opens more doors than a key",
+          "kind": "character",
+          "freeInvokes": []
+        }
+      ],
+      "stunts": [],
+      "refreshBase": 3,
+      "refresh": 3,
+      "fatePoints": 3,
+      "stress": [
+        false,
+        false,
+        false
+      ],
+      "consequences": {
+        "mild": null,
+        "moderate": null,
+        "severe": null
+      },
+      "takenOut": false,
+      "lastSession": {
+        "id": "session-1",
+        "index": 1
+      },
+      "appliedMilestoneIds": [],
+      "ownerId": "legacy-gm",
+      "zone": "carriage",
+      "pendingDamage": 0,
+      "npc": true
+    }
+  ],
+  "aspects": [
+    {
+      "id": "c250affc-8b82-41fe-b310-854af88811ab",
+      "name": "Tomorrow is listening",
+      "kind": "situation",
+      "freeInvokes": []
+    },
+    {
+      "id": "98cbfa85-881a-486e-af34-aa2f1fed75a0",
+      "name": "No one travels without baggage",
+      "kind": "situation",
+      "freeInvokes": []
+    }
+  ],
+  "requests": [
+    {
+      "id": "66985f67-1000-45ce-8f7a-3524c04975e3",
+      "characterId": "df009ec2-5f45-40d3-92d1-1ebcc3db2033",
+      "action": "overcome",
+      "approach": "quick",
+      "intent": "Keep the existing campaign progress",
+      "targetId": null,
+      "status": "rolled",
+      "opposition": 2,
+      "roll": {
+        "id": "fcc1f742-94be-4a39-8978-4d8103daaafd",
+        "actorId": "df009ec2-5f45-40d3-92d1-1ebcc3db2033",
+        "action": "overcome",
+        "approach": "quick",
+        "dice": [
+          -1,
+          0,
+          1,
+          -1
+        ],
+        "approachBonus": 3,
+        "stuntBonus": 0,
+        "invokeBonus": 2,
+        "baseOpposition": 2,
+        "oppositionBonus": 0,
+        "paidAspectIds": [
+          "df009ec2-5f45-40d3-92d1-1ebcc3db2033:high-concept"
+        ],
+        "usedFreeInvokes": [],
+        "total": 4,
+        "opposition": 2
+      },
+      "outcome": {
+        "action": "overcome",
+        "margin": 2,
+        "outcome": "success",
+        "goalAchieved": true,
+        "cost": null,
+        "damageShifts": 0,
+        "boost": false,
+        "createsAspect": false,
+        "discoversAspect": false,
+        "freeInvokes": 0,
+        "freeInvokeRecipient": null,
+        "consultOpposingAction": false
+      }
+    }
+  ],
+  "compels": [],
+  "journal": [
+    {
+      "id": "7c586a64-051a-4de1-9765-1d770e79ba09",
+      "author": "Legacy Player",
+      "text": "Existing Character joined the story.",
+      "at": "2026-09-10T01:20:24.454Z",
+      "private": false
+    },
+    {
+      "id": "33d45914-6c00-4269-b08f-9985fe1f38b8",
+      "author": "Legacy GM",
+      "text": "The table entered Tickets, memories, please. Stress cleared; consequences remain until eligible recovery.",
+      "at": "2026-09-10T01:20:24.454Z",
+      "private": false
+    },
+    {
+      "id": "4ee74a34-3bcf-47c0-86a1-3e6500785bd3",
+      "author": "Legacy GM",
+      "text": "Legacy private note must survive",
+      "at": "2026-09-10T01:20:24.454Z",
+      "private": true
+    },
+    {
+      "id": "481b28eb-4699-47b7-bde7-751a374fbf43",
+      "author": "Legacy Player",
+      "text": "Existing Character proposed overcome: Keep the existing campaign progress",
+      "at": "2026-09-10T01:20:24.454Z",
+      "private": false
+    },
+    {
+      "id": "b169eed7-2ffb-4c2e-9057-25bc938f3cc6",
+      "author": "Legacy GM",
+      "text": "Existing Character rolled 2 against 2. Invokes may be resolved before applying the outcome.",
+      "at": "2026-09-10T01:20:24.455Z",
+      "private": false
+    },
+    {
+      "id": "e83cf892-ad38-4c9b-9d24-b6612b593b4e",
+      "author": "Legacy Player",
+      "text": "Existing Character invoked “Courier between impossible neighborhoods”: An already spent Fate point must stay spent. Total 4.",
+      "at": "2026-09-10T01:20:24.456Z",
+      "private": false
+    }
+  ]
+}

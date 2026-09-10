@@ -80,7 +80,7 @@ The critical process failure was mission drift: implementation and research move
 
 The correction must preserve the clarified mission's breadth: a phone-friendly workspace with real rules automation for both players and the GM/judge. Maintain distinct mission and vision statements; do not replace either with a generic editable-notes goal.
 
-Keep historical evidence labeled by revision. This documentation pass did not run new tests, write GitHub comments, change the Site, or validate a new deployment. Source inspection during drafting still included the earlier schema-1 implementation while schema-2 work was in progress. The integration owner must reconcile exact payloads/source status before treating this contract as a completed feature inventory.
+Keep historical evidence labeled by revision. The initial documentation audit preceded integration. The implementation now uses schema 2; see RELEASE.md for the 99-test suite, actual browser workflows, build, and publication evidence. Independent sub-agents contributed UI, rules, kernel tests, and the shared contract; the Site owner integrated and tested them.
 
 ## 12. Inference and robustness
 

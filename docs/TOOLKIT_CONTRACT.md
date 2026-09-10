@@ -1,6 +1,6 @@
 # Table toolkit contract
 
-Status: corrected implementation baseline for the current toolkit work. This document specifies acceptance; it does not certify that every feature is implemented or deployed. Exact command names, payloads, limits, and migration behavior must be pinned to the accepted adapter source and its tests. The existing HTTP envelope remains defined by `API_CONTRACT.md`.
+Status: implemented Fate schema-2 contract and cross-lane acceptance baseline. Fate evidence is in RELEASE.md; adoption by another rules adapter remains unverified. Exact command payloads and normalization are in lib/fate/adapter.mjs and lib/fate/mechanics.mjs. The existing HTTP envelope remains defined by `API_CONTRACT.md`.
 
 ## Purpose and boundaries
 
@@ -106,3 +106,9 @@ Shared-design acceptance compares purpose and behavior across systems: the same 
 10. Access/browser: complete the GM/player scenario over HTTPS with public toolkit entry and separate private campaign seats. A visitor without a seat cannot read campaign state or GM data. Record the actual deployed audience.
 
 Run these against the revised source. Earlier version-1 test totals are historical evidence only. The shared kernel becomes a demonstrated cross-system baseline when Fate and a second adapter pass the agreed common scenarios; system-specific rules remain separate.
+
+## Current Fate product limits
+
+40 scenes, 24 zones per scene, 24 characters, 100 handouts, 100 inventory entries per sheet, 80 aspects per scene, 2,000 journal entries. Text: scene description/private notes 6,000 characters; handout 12,000; item notes 1,000. Map backgrounds use a user-supplied HTTPS image URL; upload/storage and fog of war are not implemented. Five stunts per sheet; each boost holds at most one free invocation. The current UI rolls up to 20 dice; the API accepts up to 30.
+
+Active scene aliases are derived from the scene library. Leaving a scene removes its unused boosts and clears character stress/taken-out status; authored situation aspects and their remaining grants stay attached to that scene. Consequences persist. No scene transition occurs while conflict, actions, compels, or pending hits remain.

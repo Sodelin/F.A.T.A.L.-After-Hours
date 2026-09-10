@@ -1,18 +1,19 @@
-# Fate Accelerated domain draft
+# Fate Accelerated rules module
 
 Independent, dependency-free ES module for integration into Fate After Hours. It contains plain JSON state and immutable reducers only. It does not read or write storage, call a network, render UI, authenticate users, or change a Sites project.
 
-Run the behavioral suite with Node 18 or newer:
+Run the behavioral suite with the project Node version:
 
 ```sh
-node --test /workspace/scratch/1902bc27a6e5/fate-domain-draft/index.test.mjs
+node --test tests/*.test.mjs
 ```
 
 ## Exports
 
 | Export | Contract |
 | --- | --- |
-| `CHARACTER_TEMPLATES`, `createCharacter`, `validateCharacter` | Three original quick starts; required caller-provided character id; initial approaches 3/2/2/1/1/0; validation returns `{valid, errors}`. |
+| `createCustomCharacter`, `validateCharacter` | Authored name, high concept, trouble, one to three additional aspects and approaches 3/2/2/1/1/0. Validation returns `{valid, errors}`. Legacy templates remain only for compatibility tests. |
+| `addStunt`, `removeStunt`, `renameCharacterAspects` | Preserve existing points, aspect identities and invocation grants; a spent session stunt cannot be removed during that session. |
 | `createAspect`, `grantFreeInvoke` | Named aspects; free invocation tokens have stable ids and explicit authorized actor ids. |
 | `roll4dF(rng)`, `createRoll(options, rng)` | Four independent draws in `[0,1)`; each maps to -1/0/+1. Pass RNG for deterministic replay/tests. |
 | `resolveAction(options)` | Action-specific failure/tie/success/style effects, including separate create/discover/existing advantage modes. |
@@ -30,9 +31,11 @@ All returned state must be committed together. For example, committing only an i
 ## Small example
 
 ```js
-import { createCharacter, beginSession, createRoll, resolveAction } from './index.mjs';
+import { createCustomCharacter, beginSession, createRoll, resolveAction } from '../lib/fate/domain.mjs';
 
-let hero = createCharacter({ id: 'hero-1', name: 'Rae', templateId: 'night-courier' });
+let hero = createCustomCharacter({ id: 'hero-1', name: 'Your character',
+  highConcept: 'Your concept', trouble: 'Your trouble', aspects: ['Your other aspect'],
+  approaches: {careful:1, clever:2, flashy:0, forceful:1, quick:3, sneaky:2} });
 hero = beginSession(hero, { sessionId: 'session-1', sessionIndex: 1 });
 const roll = createRoll({ id: 'roll-1', character: hero, action: 'overcome',
   approach: 'quick', opposition: 2 }, () => 0.5);
@@ -53,7 +56,7 @@ An advantage result's `boost: true` instructs the caller to create a one-use boo
 - Approach choice, aspect relevance, stunt conditions, costs, compels, concession fiction, and recovery remain human/GM decisions. `stuntBonus` is an explicitly approved aggregate modifier, not an automatic check of a stunt description. The module accepts integer modifiers; the caller decides which stunts apply.
 - The optional default RNG is `Math.random`; inject an authoritative server RNG for shared rolls. Store individual dice with each event. This module does not claim secure, tamper-proof, or cryptographic rolling.
 - Scene cleanup must separately expire scene aspects and unused boosts in the campaign state. `endScene` clears the character's scene state only. Taken-out narration may have persistent effects that belong in campaign state or consequences.
-- No turn-order/zone engine, challenge/contest scoring, concession payout, NPC Fate pool, PvP delayed Fate-point transfer, inventory, migration/import policy, or persistence is included. `invokeAspect` returns spending/effects, not settlement of an opposing PC's later scene-end payment.
+- Turn order, zones, inventory, migration and persistence live in the campaign adapter/kernel. Challenge/contest scoring, concession payout, a shared NPC Fate pool, and PvP delayed Fate-point transfer remain table rulings. `invokeAspect` returns spending/effects, not settlement of an opposing PC's later scene-end payment.
 - Free invocation permissions are explicit. Grant allies permission through canonical campaign state before invoking. Invoking an owned aspect requires its current character-state copy; external aspects must likewise come from the canonical campaign state.
 - `beginSession` cannot refill resources on reconnecting to the same session. Scene end, session end, and scenario end are separate explicit events. Approaches only need the starting rating distribution at character creation; advanced characters validate against the 0…5 range.
 - Severe recovery uses the advancement chapter's additional qualification that the consequence span at least two sessions (`currentSessionIndex >= incurredSessionIndex + 1`), plus scenario end and GM-approved fictional recovery. This is deliberately explicit because the damage chapter's brief description mentions scenario end without repeating the two-session qualification. Moderate recovery similarly requires end of the next or a later session. Mild recovery needs scene end and rest. Milestones never silently erase consequences.
