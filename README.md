@@ -1,5 +1,7 @@
 # Fate After Hours
 
+[Open the private review release](https://fate-after-hours.sodelin.chatgpt.site) · [Release evidence](docs/RELEASE.md) · [Mission audit](docs/MISSION_AUDIT.md) · [Tool/reuse research](docs/RESEARCH.md)
+
 A persistent Fate Accelerated campaign table for short sessions with friends. Create a campaign, invite players, choose a character, act in a scene, and return to the same saved consequences.
 
 ## Vision and mission

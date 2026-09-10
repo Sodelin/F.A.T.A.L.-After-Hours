@@ -1,6 +1,6 @@
 # Campaign kernel contract
 
-Import `handleCampaignRequest` from `campaign-api.mjs` and call it for `/api/campaigns`, `/api/campaigns/*`, and `/api/import`. Pass the native D1 database binding, not a Drizzle query builder. `schema.sql` is the required logical schema; migrations may be expressed through Drizzle. Every D1 prepared statement contains one SQL statement. Multi-statement changes use D1's atomic `batch()`.
+Import `handleCampaignRequest` from `lib/campaign/api.mjs` and call it for `/api/campaigns`, `/api/campaigns/*`, and `/api/import`. Pass the native D1 database binding, not a Drizzle query builder. `db/schema.ts` defines the logical schema; checked-in `drizzle/*.sql` migrations are the deployment authority. Every D1 prepared statement contains one SQL statement. Multi-statement changes use D1's atomic `batch()`.
 
 The adapter supplies these asynchronous or synchronous methods:
 
@@ -9,7 +9,7 @@ The adapter supplies these asynchronous or synchronous methods:
 - `command(state, member, type, payload)` returns `{state,result}` or throws. Domain errors preserve explicit status 400, 403, 404, or 409; other command rejections return 400. Domain ownership, legal transitions, rule calculations, and random rolls belong here. Never include membership credentials or GM-only information in player command results.
 - Optional `validateImport(state)` returns a normalized, validated JSON object or throws. Import is unavailable without it. Treat imported content as untrusted.
 
-The `campaigns.state` database column stores an internal `{title,state}` envelope. The adapter only receives the inner state. JSON state size is limited to 2 MiB; request bodies to 3 MiB; command payloads to 64 KiB. Name/title limits are 80/160 characters. Campaigns allow at most 32 active members including the GM; the join SQL checks capacity at commit. Listing checks at most 40 session cookies. Unknown JSON fields never define an actor or grant permissions.
+The `campaigns.state` database column stores an internal `{title,state}` envelope. The adapter only receives the inner state. JSON state size is limited to 2 MiB; request bodies to 3 MiB; command payloads to 64 KiB. Name/title limits are 80/100 characters (character names and the current UI use a 60-character limit). Campaigns allow at most 32 active members including the GM; the join SQL checks capacity at commit. Listing checks at most 40 session cookies. Unknown JSON fields never define an actor or grant permissions.
 
 POST requests need `Content-Type: application/json` and an `Origin` matching the request origin. Browser same-origin fetches provide Origin automatically. Use `credentials: 'same-origin'`. Every response disables caching. API query strings are rejected, so capabilities must travel in request bodies. UI can offer copyable `{campaignId,secret}` access codes; never add secrets to URL query strings or path segments.
 
@@ -33,4 +33,4 @@ Commands are member-scoped and idempotent. Retrying the exact request returns it
 
 The atomic commit checks both expected campaign revision and the actor's still-active session. A random commit token connects the state update to receipt insertion in the same transaction. Concurrent speculative adapter calls can occur, but only one outcome commits; losing rolls have no durable effect. Adapter code must not perform external side effects, since discarded speculative calls cannot roll those back.
 
-Verification: `node --test campaign-api.test.mjs` (Node 24; uses `node:sqlite`). Tests cover session restore, projection, actor spoofing, role denials, revision conflict, replay without reroll, concurrent duplicate/different commands, revocation during command execution, export/import, resume rotation, origin rejection, and atomic transaction rollback. This SQLite wrapper validates transaction semantics locally; the parent must still validate Worker/D1 integration in its target environment.
+Verification: `node --test tests/kernel.test.mjs tests/e2e.test.mjs` (Node 24; uses `node:sqlite`). Tests cover session restore, projection, actor spoofing, role denials, revision conflict, replay without reroll, concurrent duplicate/different commands, revocation during command execution, export/import, resume rotation, origin rejection, and atomic transaction rollback. This SQLite wrapper validates transaction semantics locally; complete authenticated browser playthrough in the deployed HTTPS environment remains unverified.

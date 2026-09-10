@@ -1,6 +1,16 @@
 # Release evidence — 2026-09-10
 
-Status: ready for first private review deployment; production result will be recorded by a follow-up documentation commit.
+Status: **version 1 successfully published** on 2026-09-10 at 01:05:42 UTC.
+
+- Review URL: https://fate-after-hours.sodelin.chatgpt.site
+- Audience: existing owner-private access.
+- Published Sites source: `4449fdebe71df6ec1bc3ef7231b2716d3222fd4d`.
+- Equivalent application source in GitHub: `63bf8bd86ab9d85c8c080357fe1ff6e6784793c8` (PR 2).
+- Saved version: `appgprj_6a9c57d7283c8191a985542ccc71738c~appgver_d8aae59ad564819184ca69321ff8f92a`.
+- Successful deployment: `appgdep_6aa20247b5a88191a966cc646643e615`.
+- Packaged artifact SHA256: `737a8ec94a92ba4c40a2558ed59a919b952506e19d3e9e3320cfba83107a86ae`.
+
+This documentation update records the published revision. It does not claim a new runtime deployment.
 
 ## Source and identity
 
@@ -10,19 +20,19 @@ Registered Site: appgprj_6a9c57d7283c8191a985542ccc71738c. Original source remot
 
 | Check | Result and limit |
 | --- | --- |
-| Domain rules | 29 tests passed, including all81 four-die outcomes, invoke/stress/recovery boundaries |
+| Domain rules | 29 tests passed, including all 81 four-die outcomes, invoke/stress/recovery boundaries |
 | Fate authorized adapter | 20 tests passed, including ownership, hidden notes, import sanitization, pending decisions and costs |
 | Kernel and migration | 14 tests passed, including atomic CAS/idempotency, revocation, invitation rotation and capacity |
 | Actual kernel + Fate adapter | 2 end-to-end server tests passed using generated migration: create/join/character/roll/finalize/save/reload/export/import/reclaim and title limits |
 | TypeScript | Passed after final interface corrections |
-| Production build | Initial build passed; final source build is a required publication gate |
+| Production build | Final production build and archive packaging passed; default Worker fetch entrypoint present |
 | Browser | Entry form, creation response, private return-link dialog, GM scene and character navigation observed; lobby and GM scene screenshots inspected |
 | Authenticated browser playthrough | Blocked: supervised preview is HTTP-only and cannot retain production Secure __Host cookies. No production-cookie weakening added. Server workflow tests do not substitute for this browser result |
 | Mobile/keyboard | Responsive source and primitives reviewed; no independent phone or complete keyboard-only playthrough completed |
 | WebMCP | Optional status/read and navigation tools implemented; current browser reports modelContext unavailable, so runtime validation unavailable |
 | Human usability | Not run; no invented completion times, enjoyment or comparative rankings |
 
-The browser review revealed that a follow-up read failure could hide a successful creation and its return link. Create/join/import now immediately use the acknowledged server response. Connection failure no longer displays an unqualified live-save status. Invalid movement during conflict and duplicate/pending-damage proposals are disabled. Control typography is at least14px; secondary labels at least12px; small-screen entry precedes the introductory story.
+The browser review revealed that a follow-up read failure could hide a successful creation and its return link. Create/join/import now immediately use the acknowledged server response. Connection failure no longer displays an unqualified live-save status. Invalid movement during conflict and duplicate/pending-damage proposals are disabled. Control typography is at least 14px; secondary labels at least 12px; small-screen entry precedes the introductory story.
 
 Screenshot bytes were inspected in the browser session, but transfer did not yield durable files; no screenshot attachment is claimed.
 
