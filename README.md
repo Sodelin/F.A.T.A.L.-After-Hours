@@ -1,38 +1,45 @@
 # Fate After Hours
 
-A fast, persistent Fate Accelerated campaign table: create or join, build a character in minutes, play a short scene, and return to the same campaign later. The larger mission is the Melvor Idle equivalent for tabletop campaigns: automate setup, rules bookkeeping and saved consequences while preserving player choices and GM rulings.
+[Open the private review release](https://fate-after-hours.sodelin.chatgpt.site) · [Release evidence](docs/RELEASE.md) · [Mission audit](docs/MISSION_AUDIT.md) · [Tool/reuse research](docs/RESEARCH.md)
 
-## Ownership and collaboration
+A persistent Fate Accelerated campaign table for short sessions with friends. Create a campaign, invite players, choose a character, act in a scene, and return to the same saved consequences.
 
-This is the owning GitHub repository: https://github.com/Sodelin/F.A.T.A.L.-After-Hours .
-The historical repository spelling does not change the rules system: this application uses Fate Accelerated, not F.A.T.A.L.
+## Vision and mission
 
-This Work lane is the **Fate implementation owner and cross-project sub-auditor**.
-**The Yellow Call lane is head auditor** and shared integration coordinator: https://github.com/Sodelin/Yellow-Call/issues/1 .
-The shared campaign home is https://github.com/Sodelin/websites-for-game-master-prototype- ; its head-auditor charter/implementation is pending verification.
-All lanes should read and report through that shared home and the linked coordination issues before claiming shared paths.
+The vision is the Melvor Idle equivalent for tabletop campaigns: a focused, browser-based Baldur’s Gate Lite with quick entry, meaningful decisions, automatic bookkeeping, and durable progress. The mission is a repeatable Sites workflow with separate campaign engine, rules adapter, world pack, and interface. Human choices and GM rulings remain explicit.
 
-Accepted target contract: [DCC cross-campaign proposal](https://github.com/Sodelin/DCC-Website/blob/bea3bb30a0d9d83a2212a02556e3d222c4a054ac/docs/CROSS_CAMPAIGN_WORKFLOW.md).
-[Fate acknowledgment and current handoff](https://github.com/Sodelin/F.A.T.A.L.-After-Hours/issues/1).
-[DCC implementation lane](https://github.com/Sodelin/DCC-Website).
+Owning repository: https://github.com/Sodelin/F.A.T.A.L.-After-Hours . The historical spelling does not change the rules: this uses Fate Accelerated, not F.A.T.A.L.
 
-The replaceable boundaries are campaign engine, system adapter, campaign pack, and site interface. Share membership/persistence/command contracts and consistent player/GM navigation. Rules and settings remain separate modules.
+## One collaboration home
 
-## Parallel work
+**All three lanes must read and report through https://github.com/Sodelin/websites-for-game-master-prototype- .** Yellow Call is head auditor and shared integrator; this lane owns Fate and acts as sub-auditor; DCC owns Lantern. Shared implementation adoption needs exact commits and acknowledgment, not three independently declared standards.
 
-One writer per Site and one owned path set per task. Use distinct branches/worktrees, report exact base/head revisions, and integrate through reviewable commits. Sub-agents currently cover Fate rules/domain logic and cross-project infrastructure/UX conformance. Shared engine/API files are not claimed by this lane while their active owner is being reconciled.
+- [Head-auditor coordination](https://github.com/Sodelin/Yellow-Call/issues/1)
+- [Fate handoff](https://github.com/Sodelin/F.A.T.A.L.-After-Hours/issues/1)
+- [Reviewable Fate source](https://github.com/Sodelin/F.A.T.A.L.-After-Hours/pull/2)
+- [DCC contract](https://github.com/Sodelin/DCC-Website/blob/bea3bb30a0d9d83a2212a02556e3d222c4a054ac/docs/CROSS_CAMPAIGN_WORKFLOW.md)
 
-## Verified starting state — 2026-09-10
+Use one writer per Site, distinct branches/worktrees and disjoint sub-agent ownership. Save working source and remaining failures before prolonged research or handoff. Never force-push over another lane.
 
-The registered Fate Site is appgprj_6a9c57d7283c8191a985542ccc71738c.
-The Sites source remote has no refs and the project has no saved/published version. This repository was also empty on inspection. No recovered or newly deployed functionality is claimed yet.
+## What is implemented
 
-## Acceptance
+D1-backed campaigns; hashed invitation and resume capabilities; HttpOnly per-campaign sessions; GM/player authorization and secret projections; atomic revision checks and idempotent commands; import/export without credentials. Scene / Character / Journal / Manage navigation stays consistent for both roles.
 
-Create campaign → invite/join → create character → scene/zone/action → persisted consequence → close/rejoin.
-Hosted state belongs in D1. The server enforces player/GM permissions and excludes hidden content from player responses. Commands require conflict detection and idempotency. Resume/export must preserve state without exporting credentials.
-Record tests actually run and publish only a known source revision; a successful build alone does not establish multiplayer usability.
+Fate supports templates, approaches, four dice, actions, invokes, stress, consequences, compels, advancement and recovery rulings. Last Train Home is an original three-scene urban-fantasy pack. It still requires a GM and does not claim a fully automated branching adventure. Detailed boundaries are visible at `/credits`.
 
-## Resume instructions
+| Boundary | Source |
+| --- | --- |
+| Campaign membership, persistence and commands | `lib/campaign/api.mjs` |
+| Pure Fate rules | `lib/fate/domain.mjs` |
+| Authorized Fate operations and import normalization | `lib/fate/adapter.mjs` |
+| Original story and zones | `lib/fate/pack.mjs` |
+| Current Fate interface | `app/table.tsx` |
+| Durable database schema and migration | `db/schema.ts`, `drizzle/` |
 
-Read this README and issue #1, then inspect the shared head-auditor record, current branch/PRs and Site state. Preserve unrelated changes. Claim a bounded path set before writing. Check for a shared runtime revision before implementing an alternative. Update evidence and exact next action before handoff.
+The shared kernel is a candidate for head-auditor consolidation. Cross-game save compatibility is not claimed until two adapters pass one contract. The present interface still contains Fate-specific controls; it is not yet a fully extracted generic shell.
+
+## Verify and continue
+
+Read `AGENTS.md`, `docs/COLLABORATION.md`, `docs/RELEASE.md`, and the current shared GitHub issues before edits. See `docs/API_CONTRACT.md` and `docs/FATE_RULES.md` for contracts. Use the Sites skill for installation, build, source push and publication; runtime instructions are retained in `docs/RUNTIME.md`.
+
+Run `node --test tests/*.test.mjs` for server/rules changes and `node node_modules/typescript/bin/tsc --noEmit` for interface checks. Test the actual create/join/action/consequence/resume journey. Record failed and not-run checks, source revision, and deployment separately. See the release record for current evidence rather than interpreting this README as a live-service guarantee.
