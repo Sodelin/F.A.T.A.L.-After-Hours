@@ -4,6 +4,9 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { createD1 } from './d1-harness.mjs';
 import { handleCampaignRequest } from '../lib/campaign/api.mjs';
 import { fateAdapter } from '../lib/fate/adapter.mjs';
+import { mechanicsAdapter } from '../lib/fate/mechanics.mjs';
+// Exercise an existing schema-1 campaign through the current kernel and upgrade path.
+const existingSaveAdapter={...fateAdapter,initialState:mechanicsAdapter.initialState};
 
 function setup() {
   const migrations = new URL('../drizzle/', import.meta.url);
@@ -14,7 +17,7 @@ function setup() {
       method, headers: { ...(cookie ? { cookie } : {}), ...(method === 'POST' ? { origin: 'https://fate.example', 'content-type': 'application/json' } : {}) },
       ...(body === undefined ? {} : { body: JSON.stringify(body) }),
     });
-    const response = await handleCampaignRequest(request, db, fateAdapter);
+    const response = await handleCampaignRequest(request, db, existingSaveAdapter);
     return { status: response.status, body: await response.json(), cookie: response.headers.get('set-cookie')?.split(';')[0] };
   }
   const post = (path, body, cookie) => call(path, { method: 'POST', body, cookie });
@@ -44,7 +47,7 @@ test('real migration, kernel, and Fate adapter complete play, persistence, priva
     revision = result.body.revision;
     return { body, result };
   };
-  await command(player.cookie, 'character.create', { name: 'Courier Mira', templateId: 'night-courier' });
+  await command(player.cookie, 'character.create', { name: 'Courier Mira', highConcept:'Test courier',trouble:'Never leaves a parcel',aspects:['Knows the route'],approaches:{careful:1,clever:2,flashy:0,forceful:1,quick:3,sneaky:2} });
   let playerView = await app.call(`/api/campaigns/${id}`, { cookie: player.cookie });
   const characterId = playerView.body.campaign.state.characters[0].id;
   assert.equal(playerView.body.campaign.state.characters[0].ownerId, player.body.member.id);

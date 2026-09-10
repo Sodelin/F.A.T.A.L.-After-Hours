@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { fateAdapter as adapter } from '../lib/fate/adapter.mjs';
+import { mechanicsAdapter as adapter } from '../lib/fate/mechanics.mjs';
 
 const clone = value => JSON.parse(JSON.stringify(value));
 const gm = { id: 'member-gm', name: 'Game Master', role: 'gm' };

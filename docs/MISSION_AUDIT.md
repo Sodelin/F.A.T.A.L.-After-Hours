@@ -1,155 +1,97 @@
----
-title: "Fate After Hours: mission, architecture, and playability audit"
-date: 2026-09-10
-status: "published private release; verification limits recorded"
-scope: "Current Fate implementation, shared campaign direction, and next iteration"
-tags: [fate-after-hours, audit, architecture, playability, research]
----
+# Corrected mission audit: human-authored campaign toolkit
 
-# 0. Verdict
+Date: 2026-09-10. Status: requirements and acceptance correction during implementation. This document supersedes the previous adventure-oriented mission audit. It introduces no new test, browser, or deployment claim.
 
-Fate After Hours now provides a persistent, GM-assisted Fate table: campaign creation, player membership, character ownership, proposed actions, saved rolls, consequences, private GM information, and backup recovery. This is a useful working foundation for the requested campaign experience. The larger mission remains incomplete: the original pack progresses through three linear scenes, meaningful story outcomes remain chiefly GM narration and journal text, and a second game system has not demonstrated the common architecture.
+## 0. Decision
 
-The private release was published successfully at [Fate After Hours](https://fate-after-hours.sodelin.chatgpt.site). Publication success establishes deployment, not a completed authenticated browser playthrough or friend access. The next product increment should make two player decisions visibly alter later scenes or an ending and preserve those effects through a return visit and backup restoration.
+Fate After Hours, DCC/Lantern, and Yellow Call compress tabletop capabilities into a phone-friendly workspace that automates supported rules and bookkeeping for players and the GM/judge. They support human-authored campaigns. Release acceptance must establish authoring, functional automation, mobile use, shared design, and private table access.
 
-# 1. Scope and decision
+## 1. Correction
 
-This audit assesses mission fit, implementation boundaries, playability evidence, reusable infrastructure, and coordination. It combines direct source inspection with the integration owner's execution and deployment receipts. It does not certify security, full Fate coverage, accessibility conformance, or comparative usability.
+The earlier audit misinterpreted the mission by treating structured branching, world facts, and a preset adventure ending as the next product goal. The user explicitly corrected that interpretation. Those recommendations are withdrawn. A built-in adventure, personality roster, automatic plot, or preset-story completion is not required.
 
-Decision: continue from this release, with a small consequential campaign increment and an HTTPS friend playtest. Preserve the tested access and persistence behavior while the head auditor resolves the shared runtime. Do not replace the engine solely because another tool advertises more features; require a bounded compatibility demonstration.
+If the earlier audit is retained, archive and label it historical. Its factual implementation/test receipts can remain useful, but its adventure-oriented priorities must not guide subsequent work.
 
-# 2. Mission and success criteria
+The user's latest clarification also prevents an overly narrow interpretation as a note-taking toolbox. Mechanical automation remains central. Removing a mandated storyline does not remove calculated rolls, statistics, advancement, inventory, legal movement, or combat interactions from the mission.
 
-The user's target is a Melvor Idle-like compression of tabletop campaigning for friends: quick entry, understandable choices, automatic bookkeeping, durable consequences, and short sessions that can resume without reconstructing the entire table. GM judgment and player agency remain valid pauses in that loop. “Idle” does not require automating every fictional decision.
+## 2. Mission, vision, and users
 
-Mission completion requires more than sheets and dice. A player should understand the current objective, select or propose a meaningful action, understand its consequence, stop, and return to the next unresolved decision. Across DCC, Yellow Call, and Fate, Create / Join / Resume should lead to the same Scene / Character / Journal / Manage navigation. Rules-specific controls can differ while their purpose and placement remain recognizable.
+**Mission:** compress tabletop capabilities into a phone-friendly workspace and automate mechanical/bookkeeping work for players and the GM/judge. The Melvor Idle analogy concerns bringing a broad system into manageable, short interactions.
 
-# 3. Methods and evidence boundaries
+**Vision:** privately play our own stories with friends online, with BG3-like convenience and freedom to lead our own campaign. Automatic rolls, statistics, leveling, inventory, movement, and combat interactions are UX references, adapted to each tabletop system's actual rules.
 
-Source inspection covered `app/table.tsx`, `app/globals.css`, `lib/campaign/api.mjs`, `lib/fate/domain.mjs`, `lib/fate/adapter.mjs`, `lib/fate/pack.mjs`, the actual kernel/adapter end-to-end tests, and runtime/collaboration/release documentation. Source and test definitions were inspected; the 65-test execution, current TypeScript result, browser observations, and deployment outcome below are supplied by the integration owner.
+A GM brings or writes their material, prepares scenes/characters, controls visibility, and adjudicates the fiction. Players join, manage their permitted characters, roll/use system tools, and return to saved table state. Low-friction participation and automatic bookkeeping serve the humans running the game.
 
-The companion [RESEARCH.md](RESEARCH.md) contains a bounded primary-source scan of six comparable tools, eleven substantive documentation pages, and three license checks, accessed 2026-09-10. Vendor capability descriptions are distinguished from measured experience. No human study, timing benchmark, head-to-head usability experiment, or systematic literature review was conducted.
+## 3. Product boundary
 
-# 4. Verification evidence
+The toolkit supplies editable table state and system mechanics. Campaign content remains human-authored. New tables start blank with neutral structural defaults. Scene-library order has no story meaning; the GM selects the active scene. A field for GM-authored objectives is content, not an automatic mission engine.
 
-| Evidence | Result | What it establishes and what remains open |
+Toolkit access is explicitly intended to be public. Campaign seats, campaign state and GM-only material remain private. This is the authorized access model; actual deployment still requires its own evidence.
+
+## 4. Existing evidence
+
+The prior implementation checkpoint had 65 passing Node tests: 29 domain, 20 adapter, 14 kernel, and 2 actual kernel/adapter integration tests. Its final TypeScript/build/package and publication succeeded. These are **historical checkpoint results**, not proof that the revised schema-2 authoring toolkit passes.
+
+Earlier browser inspection observed entry, creation response, a return-link dialog, and GM Scene/Character navigation. Complete authenticated play in the HTTP-only managed preview was blocked by production Secure-cookie behavior. No complete friend playtest, independent keyboard/phone playthrough, or usable WebMCP runtime was established. No durable screenshot attachments were recovered. Revalidate revised behavior and record new receipts before making current-release claims.
+
+## 5. Required table capabilities
+
+The corrected baseline is blank creation; GM-editable scenes and free selection; zones/connections/movement; custom PCs with approaches/aspects; NPCs and unclaimed PCs; generic dice; Fate actions/invokes/stress/consequences/compels; a turn tracker; private/shared handouts; inventory/custom stunts; GM Fate-point adjustments; and persistence/backups. See TOOLKIT_CONTRACT for ownership and invariants. This is an acceptance list, not a passed-feature list.
+
+Supported rules must calculate and apply changes rather than require duplicate manual arithmetic. Fate advancement follows milestones. Inventory weight/encumbrance belongs to each rules adapter; Fate Accelerated imposes no default encumbrance mechanic. Descriptive inventory fields do not prove carrying-rule automation.
+
+## 6. Architecture
+
+Retain separate kernel, system rules, authorized adapter, human-authored table state, and interface. The schema-2 integration retains active `scene`/`aspects` and adds a `scenes` library, `handouts`, and `conflict` state. Active and library copies must stay coherent without resetting live resources during ordinary edits.
+
+The current Fate interface remains system-specific. A second adapter passing the same kernel/permission/portability contract is the evidence needed for shared architecture. Similar navigation or duplicated source alone is insufficient.
+
+## 7. Main acceptance scenario
+
+The GM creates a blank campaign, authors independently selectable scenes and a connected zone board, creates their own PC/NPC/unclaimed PC, and prepares private/shared handouts. A player joins and claims the intended PC, uses movement and dice/Fate controls, and observes turn state. The group pauses during an unresolved decision, reloads, and continues. A GM export/import restores the authored table and safely re-establishes ownership.
+
+Use arbitrary material supplied by the tester. Do not require a particular setting, plot, outcome, or scene sequence.
+
+## 8. Priorities and release gates
+
+| Priority | Gate | Evidence required |
 | --- | --- | --- |
-| Pure Fate domain tests | 29 passed | Includes all 81 possible four-die combinations and invoke/stress/recovery boundaries; does not establish complete tabletop rules coverage. |
-| Authorized Fate adapter tests | 20 passed | Ownership, private information, import normalization, pending decisions, and outcome costs in tested cases. |
-| Campaign kernel tests | 14 passed | Revisions, replay, transactions, access revocation, invitation behavior, and capacity in the test environment. |
-| Actual kernel plus Fate adapter | 2 passed | Uses generated SQL migration and a local SQLite/D1-shaped harness: create/join/character/roll/finalize/reload/export/import/reclaim and title limits. This is stronger than adapter-only tests but is not a production browser or D1 run. |
-| Total executed Node tests | **65 passed** | Integration-owner execution receipt; no additional tests are implied by this audit. |
-| TypeScript and build | Current TypeScript and final build/package passed | Integration owner reports the final verification after interface corrections; publication subsequently succeeded. |
-| Browser inspection | Entry form, successful creation response, personal return-link dialog, GM Scene and Character navigation observed | Screenshots inspected in session. No durable screenshot files were recovered. |
-| Complete authenticated browser playthrough | **Blocked in managed preview** | HTTP-only preview could not retain production Secure cookies. The browser workflow was not completed; secure-cookie behavior was not weakened to make the preview pass. |
-| WebMCP | Unavailable in current browser context | Optional status and navigation hooks exist in code; runtime use was not validated. Ordinary UI operation does not require them. |
-| Mobile, keyboard, human usability | Partial source review; complete playtests not run | Responsive and control fixes are evidence of implementation, not proof of phone usability or accessibility conformance. |
-| Publication | **Succeeded** | Exact source/version/deployment receipts appear in section 14. Friends' separate Site access list is not yet configured. |
+| P0 | Author arbitrary table | Blank creation and editing/selection of user-authored scenes, zones, characters and handouts work through the UI. |
+| P0 | Correct permissions | Direct player API attempts cannot mutate GM-only content/adjustments or retrieve private material, including inactive library entries. |
+| P0 | Durable authoring and play | Reload/backup round trip preserves authored data, positions, tracker state, custom sheets and pending decisions without copying credentials. |
+| P0 | Reliable mutations | Conflict, duplicate retry, changed replay and revocation retain the kernel's guarantees for the new authoring commands. |
+| P0 | Mechanical automation | Supported dice/modifiers, outcomes, resource changes, advancement and movement/combat restrictions calculate and persist correctly; human decisions stay explicit. |
+| P0 | Phone workspace | Both GM authoring/management and player action/resume work on a tested phone-sized touch viewport without desktop-only controls. |
+| P1 | Shared design | Fate and a second adapter use the same navigation, ownership, save/conflict and recovery patterns with visible system-specific differences. |
+| P1 | Real friend browser use | Public toolkit entry and separate private GM/player seats work over HTTPS; unaffiliated visitors cannot read campaign data. Keyboard results are separately recorded. |
+| P1 | Shared implementation | Head auditor pins the contract and Fate plus another system adapter pass common conformance. |
 
-# 5. Playability findings
+## 9. Reuse and comparison
 
-The working loop is concrete: a player creates a quick character, sees a scene and zone position, proposes an action, and waits for the GM to set opposition and roll. The stored request supports invocations and later resolution. Compels remain negotiated. Pending hits require absorption or being taken out. Acknowledged state persists and can be reloaded or exported.
+The prior primary-source scan remains a dated inventory of table platforms and open components, not a mandate to copy them. Its useful comparison dimensions are authoring, maps, sheets, ownership, dice, turn controls, materials, persistence and portability. No new research or comparator code integration occurred in this correction. Evaluate an existing component against the toolkit contract and its actual license before adoption.
 
-`Last Train Home` supplies three original scenes, connected zones, objectives, and private GM prompts. Its final scene suggests several fictional outcomes, but `scene.advance` increments a fixed scene index. The implementation has no structured branch conditions, durable world-fact registry, consequence-triggered route unlocks, or machine-readable ending resolution. The GM records those outcomes in the journal. The product can host a short guided session; autonomous or richly branching campaign play is not established.
+## 10. Coordination
 
-Fate remains partly adjudicated: narrative relevance, opposition, some outcome choices, external opposition consequences, and eligibility for rest/recovery rely on GM judgment. That boundary should stay explicit in the interface and credits. Additional automation should preserve negotiated costs and unresolved choices instead of silently deciding them.
+The shared hub remains canonical; Yellow Call is head auditor, Fate sub-auditor/Site owner, and DCC its system owner. Publish this mission correction to the hub, request acknowledgment, and record disjoint owned paths. The Fate owner is the sole Site writer. UI and adapter work may proceed in parallel against one agreed schema; new tests and deployment receipts belong to the actual resulting source.
 
-# 6. Architecture findings
+## 11. Process integrity
 
-| Layer | Current evidence | Consequence for reuse |
-| --- | --- | --- |
-| Campaign transport and persistence | `lib/campaign/api.mjs` injects an adapter; membership, capability recovery, revisions, receipts, and export envelopes are generic. | Strong candidate for common infrastructure, subject to canonical owner agreement and a second adapter. |
-| Fate rules | `lib/fate/domain.mjs` holds pure mechanical operations. | Testable independently; Fate mechanics belong here rather than in a common DCC/Yellow rules layer. |
-| Authorization and game transitions | `lib/fate/adapter.mjs` supplies initial state, projection, commands, and import validation. | Useful separation of server roles and game legality from transport. |
-| Campaign content | `lib/fate/pack.mjs` holds the original scenes. | Separation exists, but pack schema and branch/world-state behavior remain tied to this implementation. |
-| Interface | `app/table.tsx` implements common destinations with Fate-specific types and controls. | Common navigation is an agreed convention, not a demonstrated reusable cross-system component library. |
+The critical process failure was mission drift: implementation and research moved toward an authored adventure while the user wanted a toolkit. Correct it in README, shared coordination, acceptance criteria, UI copy and defaults, then test the revised goal directly. Do not reinterpret older metaphorical language to override the user's explicit correction.
 
-Cross-game save compatibility and plug-in replacement of systems are not established. A second adapter should reuse the same kernel tests before further extraction. Versioned pack content, live story state, and membership credentials should remain distinct: restoring a save must not grant old identities or silently substitute a different pack.
+The correction must preserve the clarified mission's breadth: a phone-friendly workspace with real rules automation for both players and the GM/judge. Maintain distinct mission and vision statements; do not replace either with a generic editable-notes goal.
 
-# 7. Interaction and recovery findings
+Keep historical evidence labeled by revision. The initial documentation audit preceded integration. The implementation now uses schema 2; see RELEASE.md for the 99-test suite, actual browser workflows, build, and publication evidence. Independent sub-agents contributed UI, rules, kernel tests, and the shared contract; the Site owner integrated and tested them.
 
-The review produced specific fixes: create/join/import retain the full successful response and personal recovery secret before any refresh; connection failure no longer appears as an unqualified “Saved online”; small-screen entry precedes the introductory story; interactive text is at least 14 px and secondary labels at least 12 px; obvious pending-hit and duplicate-action invalid controls are disabled. Server validation remains authoritative.
+## 12. Inference and robustness
 
-The command client retains an operation ID when the outcome is uncertain, so retrying cannot create a new roll merely because a response was lost. Revision conflicts trigger a refreshed view and preserve the user's draft. Recovery links restore a seat and rotate its active session; an invitation and a personal return link have different meanings and should remain clearly labeled.
+The central requirement comes directly from the user, not an inference about player preferences. Expected benefits from shorter setup, consistent controls, or editable scenes remain hypotheses until observed. No measured time savings, enjoyment claim, effect size, or comparative usability ranking is supported.
 
-Next, the resumed Scene should explicitly answer: “Where am I?”, “What changed?”, and “Whose decision is pending?” Current saved data enables this, but a clear return summary has not been validated with players. Keep Scene / Character / Journal / Manage order, keyboard access, focus visibility, and accessible status messages consistent. These are requirements supported by [WCAG 2.2](https://www.w3.org/TR/WCAG22/), not a claim that this release conforms to the full standard.
+A small real-table test can challenge those hypotheses: can the GM prepare and run their own material on a phone, can a player use calculated rules without manual duplicate bookkeeping or unauthorized edits, and can the group recover the saved table? Record assistance and failures. A meta-analysis or AMSTAR-style score would be inapplicable to this requirements/code audit.
 
-# 8. Comparable tools and reuse choices
+## 13. Remaining uncertainties
 
-The detailed evidence and license receipts are in [RESEARCH.md](RESEARCH.md). No comparator code was integrated during this work.
+Toolkit command coverage, migration of old backups, hidden scene/handout projection, referenced-object deletion, active-scene synchronization, mechanical calculations, phone operation, and deployed browser recovery need evidence from the revised source. Prior owner-private publication does not establish the newly authorized public toolkit audience. Any new release must record public entry and private campaign protection separately, with its actual audience and test limits.
 
-| Comparator | Supported lesson | Decision for this project |
-| --- | --- | --- |
-| [Fari](https://fari.app/) and [historical source](https://github.com/farirpgs/fari-app) | Current landing offers legacy export/replacement information; historical repository is AGPLv3. A working current shared table was not verified. | Recover and test an exact version before selecting it as a runtime or import target. |
-| [Foundry FAQ](https://foundryvtt.com/article/faq/) and [Fate Core Official](https://github.com/Sk1mble/fate-core-official/blob/main/README.md) | Browser player/GM platform; Fate module documents presets, tracks, scene aspects, and refresh accounting. Platform, GPLv3 module code, and CC BY content have separate licensing. | Use as a Fate feature checklist; no assumption of portable saves or Worker compatibility. |
-| [Owlbear rooms](https://docs.owlbear.rodeo/docs/rooms/) and [permissions](https://docs.owlbear.rodeo/docs/permissions/) | Link entry, anonymous player participation, GM approval, and ownership controls are documented. | Compare onboarding and reassignment. Its MIT SDK licenses the SDK, not the whole hosted platform. |
-| [Roll20](https://roll20.net/) | Integrated maps, sheets, dice/macros, invitations, and campaign organization. | Use a single-action bookkeeping comparison; no reusable platform license or portable export was established in the retained page. |
-| [Alchemy](https://alchemyrpg.com/) | Scene-oriented presentation and a system builder. | Put the current situation before configuration; use original assets. Fate automation and portable state were not verified. |
-| [boardgame.io](https://github.com/boardgameio/boardgame.io) | MIT game engine with moves, phases, multiplayer, state management, logs, and view-independent integration. | Run an isolated adapter/auth/reconnect/concurrency/deployment spike before any engine migration. |
+## 14. Next handoff
 
-# 9. Next-iteration acceptance
-
-| Priority | Deliverable | Concrete acceptance |
-| --- | --- | --- |
-| P0 | Real HTTPS friend workflow | With Site access configured for intended friends, separate GM/player browsers create/join, create a character, propose/roll/resolve, reload, and resume. The player never receives private GM notes. Record passed/failed/blocked per step. |
-| P0 | Consequential story slice | At least two explicit decisions change later available content or the ending. Their facts and pending choices survive reload and GM export/import; a GM can still adjudicate an unlisted action. |
-| P0 | Return-to-play view | A returning player can identify their character, current objective, last meaningful change, and pending decision owner from the interface. Verify by observed explanation, not an invented time target. |
-| P1 | Shared-runtime proof | Head auditor pins the common kernel/contract; Fate and one second adapter pass the same membership, private projection, conflict, retry, revocation, and import conformance scenarios. |
-| P1 | Pack/live-state contract | Pack identity/version, scene IDs, choices, conditions, effects, and ending IDs are separate from current world facts and membership. Unsupported versions fail clearly; restored PCs require explicit ownership assignment. |
-| P1 | Usability and accessibility check | Complete the same join/action/pause/resume scenario by keyboard and a small-screen browser. Record assistance and failure points; preserve a non-drag movement path and announced status changes. |
-| P2 | Reuse experiment | boardgame.io spike runs the same core scenario and deployment target. Compare implementation burden and failed cases before deciding whether to adopt it. |
-
-Documentation drift identified during this audit was corrected by the integration owner: `docs/API_CONTRACT.md` now aligns its title limit and paths with the runtime and real integration tests. The supported title limit is 100 characters. All 65 server/rules tests passed against the released engine and adapter; final interface changes passed TypeScript and build/package gates.
-
-# 10. Coordinated owner lanes
-
-The canonical integration home remains [the shared campaign hub](https://github.com/Sodelin/websites-for-game-master-prototype-). The current collaboration document names Yellow Call as head auditor, Fate as sub-auditor and Fate Site owner, and DCC as Lantern owner. These are documented roles; this audit does not imply that every other work account has acknowledged the latest handoff.
-
-| Lane | Bounded ownership | Handoff required |
-| --- | --- | --- |
-| Yellow Call / head auditor | Canonical contracts, shared runtime selection, schema/version policy, cross-system acceptance | Exact branch/commit and owned paths; acknowledge Fate and DCC proposals before consolidation. |
-| Fate owner / sub-auditor | Fate rules adapter, original pack, Fate interface and deployment, adapter conformance | Release source, passed and blocked tests, changes requested of common interfaces. |
-| DCC owner | DCC rules and content plus the second-adapter trial against the agreed contract | Exact adapter commit and conformance failures without silently forking common behavior. |
-| Separately claimed experience lane | Common navigation/status/return-view specification and focused accessibility checks | Shared scenarios and permitted role differences; implementation ownership explicitly assigned before editing. |
-| Separately claimed validation lane | HTTPS multi-seat workflow, portability and observed playtest evidence | Reproducible receipts and unresolved findings; sole Site writer remains the Site owner. |
-
-Parallelize disjoint paths and test scenarios. An issue comment or handoff is not proof another account read it. Each lane should read current ownership, claim a branch and acceptance scenario, report source receipts, and wait for an acknowledgment only where integration depends on another owner. Proposed lanes are not evidence that workers have already accepted them.
-
-# 11. Process integrity
-
-Strengths: concrete implementation and deployment receipts, a real kernel/adapter test rather than only isolated mocks, explicit failed/blocked/not-run distinctions, separation of vendor facts from recommendations, and preserved ownership boundaries. Browser findings caused targeted recovery and save-state fixes before release.
-
-Limitations: the implementation owner supplies execution evidence; this sub-audit inspected source and tests but did not independently rerun the entire release. Shared-account acknowledgment is not demonstrated. Browser screenshots were inspected but not durably transferred. No human playtest or final authenticated browser end-to-end result exists yet.
-
-Process judgment: adequate for a reversible private review release; incomplete for declaring the mission finished or the architecture proven across three systems. A numerical quality score would imply unsupported precision. AMSTAR-2, a systematic-review appraisal instrument, is not applicable to this source/code/product audit. The next improvement is the HTTPS friend scenario and second-adapter conformance, not more unbounded feature searching.
-
-# 12. Robustness and residual risks
-
-The tested design uses server-derived roles, player projections, hashed capabilities, Secure HttpOnly session cookies, same-origin writes, revision checks, idempotent receipts, and atomic commits. Import normalizes allowed fields, creates a separate campaign, and resets player ownership. Pending rolls and hits constrain later actions; agreed costs require a recorded resolution note. These controls support the tested guarantees; they do not constitute a penetration test or proof of every possible imported-state invariant.
-
-Most consequential remaining uncertainties are operational and product-level: production cookie recovery with separate real browsers; friends' Site access; deployed D1 behavior beyond the local harness; a second rules adapter; and whether players can resume without GM explanation. No quantitative pooled effect, usability ranking, or causal improvement estimate is available. The researched tools are structurally different, so adding feature counts would not resolve those questions.
-
-The recommendation would change if a tested open engine preserves the same ownership/recovery/concurrency guarantees with materially less custom maintenance, or if a playtest shows an existing tool serves these friends better. Existing code is not a reason to ignore that evidence. Conversely, a passing HTTP API test should not be promoted into a claim of a successful browser session.
-
-# 13. References and knowledge continuity
-
-Retain [RESEARCH.md](RESEARCH.md) alongside this audit for dated primary sources and license receipts. Link both from the shared architecture decision and the Fate release record. Keep documentation separate from copyrighted campaign books; the current three-scene pack is original content.
-
-For Zotero or Obsidian continuation, use tags `project:fate-after-hours`, `evidence:primary`, and the relevant architecture/interaction/licensing topic. Preserve software repository and license links together, with access dates and version receipts where available. No Zotero records or external knowledge-base entries were created by this audit.
-
-Implementation source: [GitHub release checkpoint](https://github.com/Sodelin/F.A.T.A.L.-After-Hours/tree/63bf8bd86ab9d85c8c080357fe1ff6e6784793c8), [PR 2](https://github.com/Sodelin/F.A.T.A.L.-After-Hours/pull/2). Coordination: [Fate issue 1](https://github.com/Sodelin/F.A.T.A.L.-After-Hours/issues/1), [Yellow Call issue 1](https://github.com/Sodelin/Yellow-Call/issues/1). Live issue acknowledgment was not re-audited in this final documentation pass.
-
-# 14. Release receipts and next handoff
-
-| Receipt | Recorded value |
-| --- | --- |
-| Hosted release | https://fate-after-hours.sodelin.chatgpt.site |
-| GitHub implementation source | `63bf8bd86ab9d85c8c080357fe1ff6e6784793c8` — PR 2 |
-| Site source | `4449fdebe71df6ec1bc3ef7231b2716d3222fd4d` |
-| Saved version | Version 1; `appgprj_6a9c57d7283c8191a985542ccc71738c~appgver_d8aae59ad564819184ca69321ff8f92a` |
-| Deployment | `appgdep_6aa20247b5a88191a966cc646643e615` |
-| Deployment result/time | Succeeded, `2026-09-10T01:05:42Z`, integration-owner receipt |
-| Audience | Existing owner-private Site audience; friends' Site allowlist not configured |
-| Remaining browser gate | Complete authenticated GM/player playthrough over HTTPS |
-
-This audit is retained with the source and release documentation; the publication receipts have been posted to the shared handoff. The shared hub was refreshed at commit `6ac793d418cb436d7cd414a1ad7894116a1dd108`, according to the integration owner; a hub update alone does not prove another work account has acknowledged it. Campaign invitations grant an application seat; they do not grant access through the separate private Site gate. Configure intended friends' Site access before treating invitations as a usable friend onboarding flow. Do not attach or link screenshots that were not durably recovered.
+Replace the active mission documents with this correction; archive earlier goal-setting if retained. Pin the accepted toolkit schema/commands, validate authoring/automation/permissions/persistence, and separately evaluate phone use and shared design. Perform the HTTPS public-entry/private-table scenario. Record exact source and publication receipts, then post them to the shared hub with acknowledgment status. Success is a functional phone-friendly workspace for our own human-run campaigns.
